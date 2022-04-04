@@ -30,7 +30,7 @@ def summer_charge quantity
 end
 
 
-
+# recompose ternary
 
 # before
 
@@ -40,5 +40,28 @@ parameters = params ? params : []
 
 parameters = params || []
 
+
+
+# replace conditional with explicit return
+
+
+# before
+
+def reward_points
+  if days_rented > 2
+    2
+  else
+    1
+  end
+end
+
+
+
+# after
+
+def reward_points
+  return 2 if days_rented > 2
+    1
+end
 
 
