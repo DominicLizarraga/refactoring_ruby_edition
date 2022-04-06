@@ -43,3 +43,30 @@ def dicount(input_val, quantity, year_to_date)
 end
 
 
+# another example
+
+x = 5
+
+def triple(arg)
+  arg = arg * 3
+  puts "arf=g in triple: #{arg}"
+end
+
+triple x
+puts "x after triple #{x}"
+
+
+
+
+# before
+
+
+
+
+
+
+
+
+
+# after
+
