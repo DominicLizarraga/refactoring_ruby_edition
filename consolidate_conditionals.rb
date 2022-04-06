@@ -36,7 +36,26 @@ if on_vacation? && length_of_service > 10
 end
 
 
+# consolidate duplicate fragments
 
 
+# before
 
+
+if special_deal?
+  total = price * 0.95
+  send_order
+else
+  total = price * 0.98
+  send_order
+end
+
+# after
+
+if special_deal?
+  total = price * 0.95
+else
+  total = price * 0.98
+end
+send_order
 
