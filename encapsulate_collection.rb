@@ -54,11 +54,21 @@ class Person
     @courses.dup
   end
 
+  def number_of_advanced_courses
+    @courses.select { |course| course.advanced? }.size
+  end
+
+  def number_of_courses
+    @courses.size
+  end
+
 end
 
 kent = Person.new
 kent.add_course(Course.new("SmallTalk Programming", false))
 kent.add_course(Course.new("Appreciating Single Walts", True))
+kent.number_of_advanced_courses
+kent.number_of_courses
 
 
 
