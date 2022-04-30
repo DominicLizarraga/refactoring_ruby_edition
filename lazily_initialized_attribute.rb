@@ -10,7 +10,7 @@ class Employee
 end
 # after
 
-class Person
+class Employee
   def emails
     @emails ||= []
   end
