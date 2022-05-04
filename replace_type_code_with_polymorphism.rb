@@ -48,7 +48,7 @@ module MountainBike
     Math::PI * (@wheel_diameter + @tire_diameter)
   end
 
-
+  #no conditional nor type code needed
 
 end
 
