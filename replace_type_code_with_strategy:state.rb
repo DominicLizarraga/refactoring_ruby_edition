@@ -47,7 +47,7 @@ class MountainBike
 
   private
 
-  def set_state_from_hash(params)
+  def set_state_from_hash(hash)
     @base_price = hash[:base_price] if hash.has_key? (:base_price)
     if hash.has_key?(:front_suspension_price)
       @front_suspension_price = hash[:front_suspension_price]
