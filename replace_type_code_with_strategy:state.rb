@@ -151,6 +151,20 @@ class MountainBike
 
 end
 
+class RigidMountainBike
+
+end
+
+
+class FronSuspensionMountainBike
+
+end
+
+class FullSuspensionMountainBike
+
+end
+
+
 
 
 
