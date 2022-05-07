@@ -87,6 +87,11 @@ class MountainBike
 
   def type_code=(value)
     @type_code = value
+    @bike_type = case type_code
+      when :rigid: RigidMountainBike.new(:tire_width => @tire_width)
+      when :front_suspension: FrontSuspensionMountainBike.new
+      when :full_suspension: FullSuspensionMountainBike.new
+    end
   end
 
   def add_front_suspension(params)
@@ -103,6 +108,7 @@ class MountainBike
   end
 
   def off_road_ability
+    return @bike_type.off_road_ability if type_code == :rigid
     result = @tire_width * TIRE_WIDTH_SUSPENSION
     if type_code == :front_suspension || type_code == :full_suspension
       result += @front_fork_travel * FRONT_SUSPENSION_FACTOR
@@ -153,15 +159,37 @@ end
 
 class RigidMountainBike
 
+  def initialize(params)
+    @tire_width = params[:tire_width]
+  end
+
+  def off_road_ability
+    @tire_width * MountainBike::TIRE_WIDTH_FACTOR
+  end
 end
 
 
 class FronSuspensionMountainBike
+  def initialize(params)
+    @tire_width = params[:tire_width]
+    @front_fork_travel = params[:front_fork_travel]
+  end
 
+  def off_road_ability
+    @tire_width * MountainBike::TIRE_WIDTH_FACTOR + @front_fork_travel * MountainBike::FRONT_SUSPENSION_FACTOR
+  end
 end
 
 class FullSuspensionMountainBike
+  def initialize(params)
+    @tire_width = params[:tire_width]
+    @front_fork_travel = params[:front_fork_travel]
+    @rear_fork_travel = params[:rear_fork_travel]
+  end
 
+  def off_road_ability
+    @tire_width * MountainBike::TIRE_WIDTH_FACTOR + @front_fork_travel * MountainBike::FRONT_SUSPENSION_FACTOR + @rear_fork_travel * MountainBike::REAR_SUSPENSION_FACTOR
+  end
 end
 
 
