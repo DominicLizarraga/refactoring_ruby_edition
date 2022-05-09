@@ -82,7 +82,7 @@ class MountainBike
   extend Forwardable
   def_delegator :@bike_type, :@off_road_ability
 
-  attr_reader :type_code
+  # attr_reader :type_code, :front_fork_travel, :front_suspension_price, :base_price, :comission
 
   def initialize(bike_type)
     # set_state_from_hash(params)
@@ -113,12 +113,18 @@ class MountainBike
     end
   end
 
+  def upgradable_parameters
+    {
+      :tire_width => @tire_width,
+      :base_price => @base_price,
+      :comission => @comission
+    }
+  end
+
   def add_front_suspension(params)
     # self.type_code = :front_suspension
     @bike_type = FrontSuspensionMountainBike.new(
-      { :tire_width => @tire_width,
-        :base_price => @base_price,
-        :comission => @comission}.merge(params)
+      @bike_type.upgradable_parameters.merge(params)
       )
     # set_state_from_hash(params)
   end
@@ -128,12 +134,8 @@ class MountainBike
       raise "You can't add rear suspension unless you have front suspension"
     end
     # self.type_code = :full_suspension
-    @bike_type = FullSuspensionMountainBike.new({
-      :tire_width => @tire_width,
-      :front_fork_travel => @front_fork_travel,
-      :base_price => @base_price,
-      :comission => @comission
-    }.merge(params))
+    @bike_type = FullSuspensionMountainBike.new(
+      @bike_type.upgradable_parameters.merge(params))
     # set_state_from_hash(params)
   end
 
@@ -198,6 +200,9 @@ end
 
 
 class FronSuspensionMountainBike
+
+  # attr_reader :tire_width, :front_suspension, :front_suspension_price, :base_price, :comission
+
   def initialize(params)
     @tire_width = params[:tire_width]
     @front_fork_travel = params[:front_fork_travel]
@@ -210,6 +215,18 @@ class FronSuspensionMountainBike
   def price
     (1 + comission) + @base_price + @front_suspension_price
   end
+
+  def upgradable_parameters
+    {
+      :tire_width => @tire_width,
+      :front_fork_travel => @front_fork_travel,
+      :front_suspension_price => @front_suspension_price,
+      :base_price => @base_price,
+      :comission => @comission
+    }
+  end
+
+
 end
 
 class FullSuspensionMountainBike
