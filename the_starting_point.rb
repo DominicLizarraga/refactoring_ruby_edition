@@ -71,19 +71,27 @@ def statement
   result
   end
 
-    # determine amount for each line
-
   def amount_for(rental)
+    rental.charge
+  end
+
+end
+
+
+class Rental
+  # determine amount for each line
+
+  def charge
     result = 0
-    case rental.movie.price_code
+    case movie.price_code
     when Movie::REGULAR
       result += 2
-      result += (rental.days_rented - 2) * 1.5 if rental.days_rented > 2
+      result += (days_rented - 2) * 1.5 if days_rented > 2
     when Movie::NEW_RELEASE
-      result += rental.days_rented * 3
+      result += days_rented * 3
     when Movie::CHILDREN
       result += 1.5
-      result += (rental.days_rented - 3) * 1.5 if rental.days_rented > 2
+      result += (days_rented - 3) * 1.5 if days_rented > 2
     end
   end
 
