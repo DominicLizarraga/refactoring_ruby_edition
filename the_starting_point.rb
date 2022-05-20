@@ -125,16 +125,12 @@ end
 
 
 def statement
-  total_amount, frequent_renter_points = 0, 0
+  frequent_renter_points = 0
   result = "Rental Record for #{@name}\n"
   @rentals.each do |element|
-    this_amount = element.charge
-
     # add frequent renter points
 
-    frequent_renter_points += element.frequent_renter_points
-
-
+    frequent_renter_points = element.frequent_renter_points
 
     # show figures for this rental
 
@@ -143,13 +139,23 @@ def statement
 
   # add footer line
 
-  result += "Amount owed is #{total_amount}\n"
+  result += "Amount owed is #{total_charge}\n"
   result += "You earned #{frequent_renter_points} frequent renter points"
   result
   end
 
   def amount_for(rental)
     rental.charge
+  end
+
+  private
+
+  def total_charge
+    result = 0
+    @rentals.each do |element|
+      result += element.charge
+    end
+    result
   end
 
 end
