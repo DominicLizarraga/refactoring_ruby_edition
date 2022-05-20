@@ -121,43 +121,37 @@ class Customer
     @rentals << arg
   end
 
-end
+  def statement
+    frequent_renter_points = 0
+    result = "Rental Record for #{@name}\n"
+    @rentals.each do |element|
+      # add frequent renter points
 
+      frequent_renter_points = element.frequent_renter_points
 
-def statement
-  frequent_renter_points = 0
-  result = "Rental Record for #{@name}\n"
-  @rentals.each do |element|
-    # add frequent renter points
+      # show figures for this rental
 
-    frequent_renter_points = element.frequent_renter_points
+      result += "\t" + element.movie.title + "\t" + element.charge.to_s + "\n"
+      total_amount += element.charge
 
-    # show figures for this rental
+    # add footer line
 
-    result += "\t" + element.movie.title + "\t" + element.charge.to_s + "\n"
-    total_amount += element.charge
+    result += "Amount owed is #{total_charge}\n"
+    result += "You earned #{frequent_renter_points} frequent renter points"
+    result
+    end
 
-  # add footer line
+    def amount_for(rental)
+      rental.charge
+    end
 
-  result += "Amount owed is #{total_charge}\n"
-  result += "You earned #{frequent_renter_points} frequent renter points"
-  result
-  end
-
-  def amount_for(rental)
-    rental.charge
   end
 
   private
 
   def total_charge
-    result = 0
-    @rentals.each do |element|
-      result += element.charge
-    end
-    result
+    @rentals.inject(0) { |sum, rental| sum += rental.charge }
   end
-
 end
 
 
