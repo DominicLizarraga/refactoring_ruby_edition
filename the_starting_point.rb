@@ -123,22 +123,20 @@ class Customer
 
   def statement
     frequent_renter_points = 0
-    result = "Rental Record for #{@name}\n"
+    result = "<h1>Rentals for <em> #{@name}</em></h1>\n"
     @rentals.each do |element|
-      # add frequent renter points
-
-      frequent_renter_points = element.frequent_renter_points
-
       # show figures for this rental
 
-      result += "\t" + element.movie.title + "\t" + element.charge.to_s + "\n"
+      result += "\t" + element.movie.title + ": " + element.charge.to_s + "<br>\n"
       total_amount += element.charge
 
     # add footer line
 
-    result += "Amount owed is #{total_charge}\n"
-    result += "You earned #{total_frequent_renter_points} frequent renter points"
-    result
+      result += "<p>You owe <em> #{total_charge}</em></p>\n"
+      result += "On ths rental you earned " +
+                "<em> #{total_frequent_renter_points} </em> " +
+                "frequent renter points</p>"
+      result
     end
 
     def amount_for(rental)
