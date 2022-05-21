@@ -107,6 +107,21 @@ class Rental
     @days_rented = days_rented
   end
 
+  def charge
+    result = 0
+    case movie.price_code
+    when REGULAR
+      result += 2
+      result += (days_rented - 2) * 1.5 if days_rented > 2
+    when NEW_RELEASE
+      result += days_rented * 3
+    when CHILDREN
+      result += 1.5
+      result += (days_rented - 3) * 1.5 if days_rented > 2
+    end
+
+  end
+
 end
 
 class Customer
@@ -161,17 +176,7 @@ class Rental
   # determine amount for each line
 
   def charge
-    result = 0
-    case movie.price_code
-    when Movie::REGULAR
-      result += 2
-      result += (days_rented - 2) * 1.5 if days_rented > 2
-    when Movie::NEW_RELEASE
-      result += days_rented * 3
-    when Movie::CHILDREN
-      result += 1.5
-      result += (days_rented - 3) * 1.5 if days_rented > 2
-    end
+    movie.charge(days_rented)
   end
 
   # add bonus for a two day new release rental
