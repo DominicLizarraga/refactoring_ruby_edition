@@ -97,17 +97,11 @@ class Movie
     @title, @price_code = title, price_code
   end
 
-end
-
-class Rental
-  attr_reader :movie, :days_rented
-
-  def initialize(movie, days_rented)
-    @movie = movie
-    @days_rented = days_rented
+  def frequent_renter_points(days_rented)
+    (price_code == NEW_RELEASE && days_rented > 1) ? 2 : 1
   end
 
-  def charge
+  def charge(days_rented)
     result = 0
     case movie.price_code
     when REGULAR
@@ -121,6 +115,29 @@ class Rental
     end
 
   end
+end
+
+class Rental
+  attr_reader :movie, :days_rented
+
+  def initialize(movie, days_rented)
+    @movie = movie
+    @days_rented = days_rented
+  end
+
+
+
+  # determine amount for each line
+
+  def charge
+    movie.charge(days_rented)
+  end
+
+  # add bonus for a two day new release rental
+  def frequent_renter_points
+    movie.frequent_renter_points(days_rented)
+  end
+
 
 end
 
@@ -171,18 +188,3 @@ class Customer
   end
 end
 
-
-class Rental
-  # determine amount for each line
-
-  def charge
-    movie.charge(days_rented)
-  end
-
-  # add bonus for a two day new release rental
-  def frequent_renter_points
-    (movie.price_code == Movie::NEW_RELEASE && days_rented > 1) ? 2 : 1
-  end
-
-
-end
