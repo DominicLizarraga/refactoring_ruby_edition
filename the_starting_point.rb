@@ -90,7 +90,9 @@ class Movie
   NEW_RELEASE = 1
   CHILDREN = 2
 
-  attr_reader :title, :price_code
+  attr_reader :title
+  attr_writer :price_code
+
 
   def initialize(title, the_price_code)
     @title, self.price_code = the_title, price_code
@@ -105,14 +107,14 @@ class Movie
 
   end
 
-  def price_code=(value)
-    @price_code= value
-    @price = case price_code
-    when REGULAR: RegularPrice.new
-    when NewReleasePrice: NewReleasePrice.new
-    when ChildrenPrice: ChildrenPrice.new
-    end
-  end
+  # def price_code=(value)
+  #   @price_code= value
+  #   @price = case price_code
+  #   when REGULAR: RegularPrice.new
+  #   when NewReleasePrice: NewReleasePrice.new
+  #   when ChildrenPrice: ChildrenPrice.new
+  #   end
+  # end
 end
 
 module DefaultPrice
@@ -223,4 +225,14 @@ class Customer
     @rentals.inject(0) { |sum, rental| sum += rental.frequent_renter_points }
   end
 end
+
+# before callling
+
+movie = Movie.new("The Watchmen", Movie::NEW_RELEASE)
+movie.price_code = Movie::NEW_RELEASE
+
+# After calling
+
+movie = Movie.new("The Watchmen", NewReleasePrice.new)
+movie.price_code = RegularPrice.new
 
